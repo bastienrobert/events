@@ -3,7 +3,7 @@
 <h4 align="center">Event emitter for all engines</h4>
 
 <blockquote align="center">
-  <em>Partially implements the Node.js events module for environments that do not have it, like browsers
+  <em>Partially implements the Node.js events module for environments that do not have it, like browsers</em>
 </blockquote>
 
 <p align="center">

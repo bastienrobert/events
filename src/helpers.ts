@@ -12,9 +12,7 @@ export function filter(
   let result = []
   for (let i = 0; i < length; i++) {
     const current = arr[i]
-    if (fn(current, i)) {
-      result.push(current)
-    }
+    if (fn(current, i)) result.push(current)
   }
   return result
 }
