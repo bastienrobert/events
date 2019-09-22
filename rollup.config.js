@@ -2,6 +2,7 @@ import typescript from 'rollup-plugin-typescript2'
 import { uglify } from 'rollup-plugin-uglify'
 import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
+import filesize from 'rollup-plugin-filesize'
 
 import pkg from './package.json'
 
@@ -15,7 +16,8 @@ export default [
     plugins: [
       typescript({
         typescript: require('typescript')
-      })
+      }),
+      filesize()
     ]
   },
   {
@@ -27,7 +29,8 @@ export default [
         typescript: require('typescript')
       }),
       commonjs(),
-      uglify()
+      uglify(),
+      filesize()
     ]
   }
 ]

@@ -9,9 +9,8 @@ function filter(arr, fn) {
     var result = [];
     for (var i = 0; i < length; i++) {
         var current = arr[i];
-        if (fn(current, i)) {
+        if (fn(current, i))
             result.push(current);
-        }
     }
     return result;
 }
