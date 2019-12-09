@@ -19,32 +19,32 @@ export default class EventEmitter {
     /**
      * Alias for emitter.on(name, fn)
      */
-    addListener: (name: string, fn: () => void) => this;
+    addListener: (name: string, fn: (...args: any[]) => any) => this;
     /**
      * Alias for emitter.off(name, fn)
      */
-    removeListener: (name: string, fn: () => void) => this;
+    removeListener: (name: string, fn: (...args: any[]) => any) => this;
     /**
      * Adds the listener function to the end of the listeners array for the given event name
      * @param name - name of the event
      * @param fn - callback function
      * @returns EventEmitter instance
      */
-    on(name: string, fn: () => void): this;
+    on(name: string, fn: (...args: any[]) => any): this;
     /**
      * Adds a one-time listener function for the given event name
      * @param name - name of the event
      * @param fn - callback function
      * @returns EventEmitter instance
      */
-    once(name: string, fn: () => void): this;
+    once(name: string, fn: (...args: any[]) => any): this;
     /**
      * Removes the specified listener from the listener array for the given event name
      * @param name - name of the event
      * @param fn - callback function
      * @returns EventEmitter instance
      */
-    off(name: string, fn: () => void): this;
+    off(name: string, fn: (...args: any[]) => any): this;
     /**
      * Removes all listeners, or those of the specified eventName
      *
