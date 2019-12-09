@@ -1,6 +1,6 @@
 {
   "name": "@bastienrobert/events",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Event emitter for all engines",
   "main": "dist/index.js",
   "module": "dist/index.mjs",

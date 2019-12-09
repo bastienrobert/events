@@ -12,6 +12,17 @@ test('should call listeners', () => {
   expect(listeners[1]).toBeCalledTimes(1)
 })
 
+test('should pass arguments to listeners', () => {
+  const listener = jest.fn((x, y, z) => x + y + z)
+  const emitter = new EventEmitter()
+
+  emitter.on('foo', listener)
+  emitter.emit('foo', 1, 2, 3)
+
+  expect(listener).toBeCalledTimes(1)
+  expect(listener).toBeCalledWith(1, 2, 3)
+})
+
 test('should not call off listeners', () => {
   const listeners = [jest.fn(), jest.fn()]
   const emitter = new EventEmitter()

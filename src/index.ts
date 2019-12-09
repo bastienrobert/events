@@ -46,7 +46,7 @@ export default class EventEmitter {
    * @param fn - callback function
    * @returns EventEmitter instance
    */
-  public on(name: string, fn: () => void): this {
+  public on(name: string, fn: (...args: any[]) => any): this {
     if (!this._events[name]) this._events[name] = []
     this._events[name].push(fn)
     return this
@@ -58,7 +58,7 @@ export default class EventEmitter {
    * @param fn - callback function
    * @returns EventEmitter instance
    */
-  public once(name: string, fn: () => void): this {
+  public once(name: string, fn: (...args: any[]) => any): this {
     const onceFn = (...args: any[]) => {
       fn.apply(this, args)
       this.off(name, onceFn)
@@ -73,7 +73,7 @@ export default class EventEmitter {
    * @param fn - callback function
    * @returns EventEmitter instance
    */
-  public off(name: string, fn: () => void): this {
+  public off(name: string, fn: (...args: any[]) => any): this {
     if (this._events[name]) {
       const result = filter(this._events[name], event => event !== fn)
       if (result.length > 0) this._events[name] = result
