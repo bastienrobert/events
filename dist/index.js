@@ -7,9 +7,8 @@
  * @returns filtered array
  */
 function filter(arr, fn) {
-    var length = arr.length;
     var result = [];
-    for (var i = 0; i < length; i++) {
+    for (var i = 0, length_1 = arr.length; i < length_1; i++) {
         var current = arr[i];
         if (fn(current, i))
             result.push(current);
@@ -111,7 +110,10 @@ var EventEmitter = /** @class */ (function () {
      * @returns EventEmitter instance
      */
     EventEmitter.prototype.removeAllListeners = function (name) {
-        if (this._events[name])
+        var _this = this;
+        if (!name)
+            this.eventNames.forEach(function (n) { return _this.removeAllListeners(n); });
+        else if (this._events[name])
             delete this._events[name];
         return this;
     };

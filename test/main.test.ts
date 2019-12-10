@@ -50,7 +50,7 @@ test('should call listener once', () => {
   expect(listener).toBeCalledTimes(1)
 })
 
-test('should remove all listeners', () => {
+test('should remove all listeners by name', () => {
   const listeners = [jest.fn(), jest.fn()]
   const emitter = new EventEmitter()
 
@@ -58,6 +58,20 @@ test('should remove all listeners', () => {
   emitter.on('foo', listeners[1])
   emitter.removeAllListeners('foo')
   emitter.emit('foo')
+
+  expect(listeners[0]).toBeCalledTimes(0)
+  expect(listeners[1]).toBeCalledTimes(0)
+})
+
+test('should remove all listeners', () => {
+  const listeners = [jest.fn(), jest.fn()]
+  const emitter = new EventEmitter()
+
+  emitter.on('foo', listeners[0])
+  emitter.on('bar', listeners[1])
+  emitter.removeAllListeners()
+  emitter.emit('foo')
+  emitter.emit('bar')
 
   expect(listeners[0]).toBeCalledTimes(0)
   expect(listeners[1]).toBeCalledTimes(0)

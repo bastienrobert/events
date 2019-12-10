@@ -89,8 +89,9 @@ export default class EventEmitter {
    * @param name - name of the event
    * @returns EventEmitter instance
    */
-  public removeAllListeners(name: string): this {
-    if (this._events[name]) delete this._events[name]
+  public removeAllListeners(name?: string): this {
+    if (!name) this.eventNames.forEach(n => this.removeAllListeners(n))
+    else if (this._events[name]) delete this._events[name]
     return this
   }
 

@@ -52,7 +52,7 @@ export default class EventEmitter {
      * @param name - name of the event
      * @returns EventEmitter instance
      */
-    removeAllListeners(name: string): this;
+    removeAllListeners(name?: string): this;
     /**
      * Synchronously calls each of the listeners registered for the event named eventName, in the order they were registered, passing the supplied arguments to each
      * @param name - name of the event

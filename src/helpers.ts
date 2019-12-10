@@ -8,9 +8,8 @@ export function filter(
   arr: any[],
   fn: (current?: any, i?: number) => boolean
 ): any[] {
-  const length = arr.length
   let result = []
-  for (let i = 0; i < length; i++) {
+  for (let i = 0, length = arr.length; i < length; i++) {
     const current = arr[i]
     if (fn(current, i)) result.push(current)
   }
