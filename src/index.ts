@@ -1,6 +1,9 @@
 import { filter } from './helpers'
 import { Event, Events } from './types'
 
+export type Arguments = any[]
+export type Callback = (...args: Arguments) => any
+
 export default class EventEmitter {
   private _events: Events = {}
 
@@ -46,7 +49,7 @@ export default class EventEmitter {
    * @param fn - callback function
    * @returns EventEmitter instance
    */
-  public on(name: string, fn: (...args: any[]) => any): this {
+  public on(name: string, fn: Callback): this {
     if (!this._events[name]) this._events[name] = []
     this._events[name].push(fn)
     return this
@@ -58,7 +61,7 @@ export default class EventEmitter {
    * @param fn - callback function
    * @returns EventEmitter instance
    */
-  public once(name: string, fn: (...args: any[]) => any): this {
+  public once(name: string, fn: Callback): this {
     const onceFn = (...args: any[]) => {
       fn.apply(this, args)
       this.off(name, onceFn)
@@ -73,9 +76,9 @@ export default class EventEmitter {
    * @param fn - callback function
    * @returns EventEmitter instance
    */
-  public off(name: string, fn: (...args: any[]) => any): this {
+  public off(name: string, fn: Callback): this {
     if (this._events[name]) {
-      const result = filter(this._events[name], event => event !== fn)
+      const result = filter(this._events[name], (event) => event !== fn)
       if (result.length > 0) this._events[name] = result
       else delete this._events[name]
     }
@@ -90,7 +93,7 @@ export default class EventEmitter {
    * @returns EventEmitter instance
    */
   public removeAllListeners(name?: string): this {
-    if (!name) this.eventNames.forEach(n => this.removeAllListeners(n))
+    if (!name) this.eventNames.forEach((n) => this.removeAllListeners(n))
     else if (this._events[name]) delete this._events[name]
     return this
   }
@@ -101,7 +104,7 @@ export default class EventEmitter {
    * @param ...args - supplied arguments to listeners
    * @returns returns true if the event had listeners, false otherwise
    */
-  public emit(name: string, ...args: any[]): boolean {
+  public emit(name: string, ...args: Arguments): boolean {
     if (!this._events[name]) return false
 
     const length = this._events[name].length
