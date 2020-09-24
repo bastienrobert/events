@@ -1,36 +1,72 @@
-import typescript from 'rollup-plugin-typescript2'
+import typescript from 'rollup-plugin-ts'
 import { uglify } from 'rollup-plugin-uglify'
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
+import resolve from '@rollup/plugin-node-resolve'
+import commonjs from '@rollup/plugin-commonjs'
 import filesize from 'rollup-plugin-filesize'
 
-import pkg from './package.json'
+function generateConfigFromFileSource(
+  file,
+  { name = 'index', outputDir } = {}
+) {
+  const formattedOutputDir = outputDir ? '/' + outputDir : ''
+  const tsconfig = (resolvedConfig) => ({
+    ...resolvedConfig,
+    declarationDir: `./dist${formattedOutputDir}`,
+  })
+
+  return [
+    {
+      input: file,
+      output: {
+        file: `dist${formattedOutputDir}/${name}.js`,
+        format: 'cjs',
+        exports: 'default',
+      },
+      plugins: [
+        typescript({
+          tsconfig,
+        }),
+        filesize(),
+      ],
+    },
+    {
+      input: file,
+      output: {
+        file: `dist${formattedOutputDir}/${name}.module.js`,
+        format: 'es',
+        exports: 'default',
+      },
+
+      plugins: [
+        typescript({
+          tsconfig,
+        }),
+        filesize(),
+      ],
+    },
+    {
+      input: file,
+      output: {
+        file: `dist${formattedOutputDir}/${name}.browser.js`,
+        name: 'Events',
+        format: 'umd',
+      },
+      plugins: [
+        resolve(),
+        typescript({
+          tsconfig,
+        }),
+        commonjs(),
+        uglify(),
+        filesize(),
+      ],
+    },
+  ]
+}
 
 export default [
-  {
-    input: 'src/index.ts',
-    output: [
-      { file: pkg.main, format: 'cjs' },
-      { file: pkg.module, format: 'es' }
-    ],
-    plugins: [
-      typescript({
-        typescript: require('typescript')
-      }),
-      filesize()
-    ]
-  },
-  {
-    input: 'src/index.ts',
-    output: { file: pkg.browser, name: 'Events', format: 'umd' },
-    plugins: [
-      resolve(),
-      typescript({
-        typescript: require('typescript')
-      }),
-      commonjs(),
-      uglify(),
-      filesize()
-    ]
-  }
+  ...generateConfigFromFileSource('src/EventEmitter.ts'),
+  ...generateConfigFromFileSource('src/LightEventEmitter.ts', {
+    outputDir: 'light',
+  }),
 ]
