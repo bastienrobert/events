@@ -1,4 +1,4 @@
-import EventEmitter from '../dist'
+import EventEmitter from '../dist/light'
 
 test('should call listeners', () => {
   const listeners = [jest.fn(), jest.fn()]
@@ -50,33 +50,6 @@ test('should call listener once', () => {
   expect(listener).toBeCalledTimes(1)
 })
 
-test('should remove all listeners by name', () => {
-  const listeners = [jest.fn(), jest.fn()]
-  const emitter = new EventEmitter()
-
-  emitter.on('foo', listeners[0])
-  emitter.on('foo', listeners[1])
-  emitter.removeAllListeners('foo')
-  emitter.emit('foo')
-
-  expect(listeners[0]).toBeCalledTimes(0)
-  expect(listeners[1]).toBeCalledTimes(0)
-})
-
-test('should remove all listeners', () => {
-  const listeners = [jest.fn(), jest.fn()]
-  const emitter = new EventEmitter()
-
-  emitter.on('foo', listeners[0])
-  emitter.on('bar', listeners[1])
-  emitter.removeAllListeners()
-  emitter.emit('foo')
-  emitter.emit('bar')
-
-  expect(listeners[0]).toBeCalledTimes(0)
-  expect(listeners[1]).toBeCalledTimes(0)
-})
-
 test('should get params in on listeners', () => {
   const listeners = [jest.fn(), jest.fn()]
   const emitter = new EventEmitter()
@@ -97,33 +70,4 @@ test('should get params in once listener', () => {
   emitter.emit('foo', 'bar', 'rab')
 
   expect(listener).toHaveBeenCalledWith('bar', 'rab')
-})
-
-test('should get events names', () => {
-  const listener = jest.fn()
-  const emitter = new EventEmitter()
-
-  emitter.on('foo', listener)
-  const names = emitter.eventNames
-
-  expect(names).toEqual(['foo'])
-})
-
-test('should get number of events according to the given name', () => {
-  const listener = jest.fn()
-  const emitter = new EventEmitter()
-
-  emitter.on('foo', listener)
-
-  expect(emitter.listenerCount('foo')).toEqual(1)
-})
-
-test('should get a copy of the events according to the given name', () => {
-  const listener = jest.fn()
-  const emitter = new EventEmitter()
-
-  emitter.on('foo', listener)
-
-  expect(emitter.listeners('foo')).toEqual([listener])
-  expect(emitter.listeners('bar')).toEqual([])
 })
